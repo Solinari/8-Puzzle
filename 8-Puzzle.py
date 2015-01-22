@@ -2,9 +2,19 @@
 # AI 380/480
 # Assignment 1
 
-# class Queue - using this as my Parent class for the searches
+# Node class
 
-class Queue:
+class Node():
+
+    def __init__(self, state, parent = None, PathCost = 0):
+        '''instantiate the node'''
+
+        # add more...
+
+
+# class BFS - using this as my Parent class for the searches
+
+class BFS:
 
     def __init__(self):
         '''intitalizes queue'''
@@ -48,7 +58,7 @@ class Queue:
         return 'Queue is: {}'.format(self.q)
 
 #some tests
-kew = Queue()
+kew = BFS()
 
 kew.enqueue(100)
 print(kew)
@@ -56,20 +66,12 @@ print(kew)
 print(kew.dequeue())
 
 
-# Node class
 
-class Node():
-
-    def __init__(self, state, parent = None, PathCost = 0):
-        '''instantiate the node'''
-
-        # add more...
         
 
-# extend to superclass BFS
+# extend to superclass dfs
 
-class BFS(Queue):
-    '''inherits from Queue to be a Breadth-First Search'''
+
 
     
 print(kew)
