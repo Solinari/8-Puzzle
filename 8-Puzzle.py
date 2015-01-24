@@ -4,7 +4,7 @@
 
 # Node class
 
-class Node():
+class Node:
 
     def __init__(self, state, parent = None, PathCost = 0):
         '''instantiate the node'''
