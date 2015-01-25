@@ -34,8 +34,8 @@ class Node:
         #this returns state
         is_next = problem.result(self.state, action)
 
-        #return cost
-        is_cost = problem.path_cost()
+        #return cost - this is kind of like abstract method tucking
+        is_cost = problem.path_cost(self.path_cost, self.state, action, is_next)
 
         # think about parent...
         # I think since you don't pass it, it's not none
@@ -73,7 +73,34 @@ class Node:
         '''return the state in the node'''
         return "Node {}".format(self.state)
 
+# Problem class
 
+class Problem(Node):
+
+    def __init__(self, initial, goal = None):
+        '''stating state'''
+        self.initial = initial
+        self.goal = goal
+
+    # IMPLEMENT ACTIONS AND RESULT!! AFTER THIS G2G on BFS STATE TESTING!
+
+    def actions(self, state):
+        '''return availible actions'''
+        pass
+
+    def result(self, state, action):
+        '''returns an action from self.actions(state)'''
+        pass
+
+    def goal_test(self, state):
+        '''returns boolean of if state == goal'''
+
+        return state == self.goal
+
+    def path_cost(self, cost, state_one, action, state_two):
+        '''defines current path cost'''
+        
+        return cost + 1
 
 
 # class BFS - using this as my Parent class for the searches
