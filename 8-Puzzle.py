@@ -86,8 +86,40 @@ class Problem(Node):
     # this part I am making specifically for the 8-puzzle. ie it won't be abstract
 
     def actions(self, state):
-        '''return availible actions'''
-        pass
+        '''return availible actions
+        this is the real meat of defining the child nodes
+        this will pass a list of the child Nodes to result'''
+
+        # So here is where 0 is in the state
+        # do I just want to make 9 cases? (all 9 positions
+        z = state.index(0)
+
+        if state[0] == z:
+            pass
+
+        if state[1] == z:
+            pass
+
+        if state[2] == z:
+            pass
+
+        if state[3] == z:
+            pass
+
+        if state[4] == z:
+            pass
+
+        if state[5] == z:
+            pass
+
+        if state[6] == z:
+            pass
+
+        if state[7] == z:
+            pass
+
+        if state[8] == z:
+            pass
 
     def result(self, state, action):
         '''returns an action from self.actions(state)'''
@@ -166,6 +198,8 @@ print(kew)
 print(len(kew))
 
 # Node Tests
+# setting the lists like this lets me
+# visualize 
 node1 = Node([1, 2, 3,
               8, 0, 4,
               7, 6, 5])
