@@ -138,10 +138,24 @@ print(kew)
 print(len(kew))
 
 # Node Tests
-node = Node([0, 1, 2])
+node1 = Node([[1, 2, 3],
+            [8, 0, 4],
+            [7, 6, 5]])
 
-print(node)
-        
+print(node1)
+
+node2 = Node([[1, 2, 3],
+            [8, 0, 4],
+            [7, 6, 5]])
+
+node3 = Node([[1, 2, 3],
+            [8, 6, 4],
+            [7, 0, 5]])
+
+
+print(node1.__eq__(node2))
+print(node2.__eq__(node3))
+print(node1.__eq__(node3))
 
 # extend to superclass dfs
 
