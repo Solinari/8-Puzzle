@@ -75,7 +75,7 @@ class Node:
 
 # Problem class
 
-class Problem(data_object):
+class Problem(Node):
 
     def __init__(self, initial, goal = None):
         '''stating state and remember to pass goal to problem'''
@@ -83,6 +83,7 @@ class Problem(data_object):
         self.goal = goal
 
     # IMPLEMENT ACTIONS AND RESULT!! AFTER THIS G2G on BFS STATE TESTING!
+    # this part I am making specifically for the 8-puzzle. ie it won't be abstract
 
     def actions(self, state):
         '''return availible actions'''
@@ -165,19 +166,19 @@ print(kew)
 print(len(kew))
 
 # Node Tests
-node1 = Node([[1, 2, 3],
-            [8, 0, 4],
-            [7, 6, 5]])
+node1 = Node([1, 2, 3,
+              8, 0, 4,
+              7, 6, 5])
 
 print(node1)
 
-node2 = Node([[1, 2, 3],
-            [8, 0, 4],
-            [7, 6, 5]])
+node2 = Node([1, 2, 3,
+              8, 0, 4,
+              7, 6, 5])
 
-node3 = Node([[1, 2, 3],
-            [8, 6, 4],
-            [7, 0, 5]])
+node3 = Node([1, 2, 3,
+              8, 6, 4,
+              7, 0, 5])
 
 
 print(node1.__eq__(node2))
