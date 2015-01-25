@@ -95,15 +95,12 @@ class Problem:
         # Notice I am only going to read state, never alter state
         # 99% of the work is done inside this method
 
-        # Tile layout for reference:
-##        [1, 2, 3,
-##         8, 0, 4,
-##         7, 6, 5]
         
         z = state.index(0)
         child_actions = []
 
-        if state[0] == z:
+        if z == 0:
+            print("two")
             #set moves
             UP = state[3]
             LEFT = state[1]
@@ -123,43 +120,65 @@ class Problem:
             temp1.pop(2)
             temp1.insert(0, UP)
             temp1.insert(3, 0)
-            return1 = ['UP', temp1]
-            child_actions.append(return1)
+            child_actions.append(['UP', temp1])
 
             # state on LEFT move
             temp2 = state[:]
             temp2.pop(0)
             temp2.insert(0, LEFT)
             temp2.insert(1, 0)
-            return2 = ['LEFT', temp2]
-            child_actions.append(return2)
+            child_actions.append(['LEFT', temp2])
 
             # list of the list of moves with paired states
             # each index is [MOVE, that_moves_state]
             return child_actions
 
-        if state[1] == z:
+        # Tile layout for reference:
+##        [1, 0, 3,
+##         8, 2, 4,
+##         7, 6, 5]
+
+        if z == 1:
+            print("one")
+            RIGHT = state[0]
+            LEFT  = state[2]
+            UP    = state[4]
+
+            #state on RIGHT move
+            temp1 = state[:]
+            temp1.pop(1)
+            temp1.insert(2, 0)
+            child_actions.append(['RIGHT', temp1])
+
+            #state on LEFT move
+            temp2 = state[:]
+
+
+            #state on UP move
+            temp3 = state[:]
+
+            
+            return child_actions
+
+        if z == 2:
             pass
 
-        if state[2] == z:
+        if z == 3:
             pass
 
-        if state[3] == z:
+        if z == 4:
             pass
 
-        if state[4] == z:
+        if z == 5:
             pass
 
-        if state[5] == z:
+        if z == 6:
             pass
 
-        if state[6] == z:
+        if z == 7:
             pass
 
-        if state[7] == z:
-            pass
-
-        if state[8] == z:
+        if z == 8:
             pass
 
     def result(self, state, action):
@@ -262,9 +281,9 @@ print(len(kew))
 
 # Problem Tests
 
-nodeP = Node([0, 2, 4,
-              3, 5, 6,
-              1, 7, 8])
+nodeP = Node([1, 0, 3,
+              8, 2, 4,
+              7, 6, 5])
 
 print(nodeP)
 
