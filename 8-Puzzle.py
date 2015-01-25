@@ -75,10 +75,10 @@ class Node:
 
 # Problem class
 
-class Problem(Node):
+class Problem(data_object):
 
     def __init__(self, initial, goal = None):
-        '''stating state'''
+        '''stating state and remember to pass goal to problem'''
         self.initial = initial
         self.goal = goal
 
