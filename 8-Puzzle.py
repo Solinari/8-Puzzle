@@ -75,9 +75,9 @@ class Node:
 
 # Problem class
 
-class Problem(Node):
+class Problem:
 
-    def __init__(self, initial, goal = None):
+    def __init__(self, initial = None, goal = None):
         '''stating state and remember to pass goal to problem'''
         self.initial = initial
         self.goal = goal
@@ -88,14 +88,55 @@ class Problem(Node):
     def actions(self, state):
         '''return availible actions
         this is the real meat of defining the child nodes
-        this will pass a list of the child Nodes to result'''
+        this will return a list of the child Nodes to result'''
 
         # So here is where 0 is in the state
-        # do I just want to make 9 cases? (all 9 positions
+        # do I just want to make 9 cases? (all 9 positions)
+        # Notice I am only going to read state, never alter state
+        # 99% of the work is done inside this method
+
+        # Tile layout for reference:
+##        [1, 2, 3,
+##         8, 0, 4,
+##         7, 6, 5]
+        
         z = state.index(0)
+        child_actions = []
 
         if state[0] == z:
-            pass
+            #set moves
+            UP = state[3]
+            LEFT = state[1]
+
+            #pop the index at 0 because we know 0
+            #the blank tile sits here at this point
+            #do this on a copy of state as not to mess up state
+            # remember the list shrinks as you pop
+            # so you gotta remember where the index is on the next pop
+            # protip listcopy = origlist[:]
+            # if you dont do it as a 'slice' of the whole list...
+            # THEY POINT TO THE ORIGINAL LIST AND MUTATE IT
+
+            # state on UP move
+            temp1 = state[:]
+            temp1.pop(0)
+            temp1.pop(2)
+            temp1.insert(0, UP)
+            temp1.insert(3, 0)
+            return1 = ['UP', temp1]
+            child_actions.append(return1)
+
+            # state on LEFT move
+            temp2 = state[:]
+            temp2.pop(0)
+            temp2.insert(0, LEFT)
+            temp2.insert(1, 0)
+            return2 = ['LEFT', temp2]
+            child_actions.append(return2)
+
+            # list of the list of moves with paired states
+            # each index is [MOVE, that_moves_state]
+            return child_actions
 
         if state[1] == z:
             pass
@@ -200,24 +241,35 @@ print(len(kew))
 # Node Tests
 # setting the lists like this lets me
 # visualize 
-node1 = Node([1, 2, 3,
-              8, 0, 4,
-              7, 6, 5])
+##node1 = Node([1, 2, 3,
+##              8, 0, 4,
+##              7, 6, 5])
+##
+##print(node1)
+##
+##node2 = Node([1, 2, 3,
+##              8, 0, 4,
+##              7, 6, 5])
+##
+##node3 = Node([1, 2, 3,
+##              8, 6, 4,
+##              7, 0, 5])
+##
+##
+##print(node1.__eq__(node2))
+##print(node2.__eq__(node3))
+##print(node1.__eq__(node3))
 
-print(node1)
+# Problem Tests
 
-node2 = Node([1, 2, 3,
-              8, 0, 4,
-              7, 6, 5])
+nodeP = Node([0, 2, 4,
+              3, 5, 6,
+              1, 7, 8])
 
-node3 = Node([1, 2, 3,
-              8, 6, 4,
-              7, 0, 5])
+print(nodeP)
 
-
-print(node1.__eq__(node2))
-print(node2.__eq__(node3))
-print(node1.__eq__(node3))
+test = Problem()
+print(test.actions(nodeP.state))
 
 # extend to superclass dfs
 
