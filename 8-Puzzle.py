@@ -267,7 +267,7 @@ class Problem:
             temp2.insert(4, 0)
             child_actions.append(['RIGHT', temp2])
 
-            # tate for UP move
+            # state for UP move
             temp3 = state[:]
             temp3.pop(5)
             temp3.pop(-1)
@@ -301,15 +301,63 @@ class Problem:
 
             return child_actions
 
+        if z == 7:
+            DOWN  = state[4]
+            RIGHT = state[-3]
+            LEFT = state[-1]
+
+            # state for DOWN move
+            temp1 = state[:]
+            temp1.pop(4)
+            temp1.pop(-2)
+            temp1.insert(-1, DOWN)
+            temp1.insert(4, 0)
+            child_actions.append(['DOWN', temp1])
+
+
+            # state for RIGHT move
+            temp2 = state[:]
+            temp2.pop(6)
+            temp2.pop(6)
+            temp2.insert(6, RIGHT)
+            temp2.insert(6, 0)
+            child_actions.append(['RIGHT', temp2])
+
+            # state for LEFT move
+            temp3 = state[:]
+            temp3.pop(-1)
+            temp3.pop(-1)
+            temp3.insert(7, 0)
+            temp3.insert(7, LEFT)
+            child_actions.append(['RIGHT', temp3])
+
+            return child_actions
+
         # Tile layout for reference:
 ##        [1, 3, 8,
 ##         2, 4, 7,
-##         6, 0, 5]
-        if z == 7:
-            pass
-
+##         6, 5, 0]
         if z == 8:
-            pass
+            DOWN = state[5]
+            RIGHT = state[-2]
+
+            # state for RIGHT move
+            temp1 = state[:]
+            temp1.pop(5)
+            temp1.pop(-1)
+            temp1.insert(7, DOWN)
+            temp1.insert(5, 0)
+            child_actions.append(['DOWN', temp1])
+
+            # state for DOWN move
+            temp2 = state[:]
+            temp2.pop(-1)
+            temp2.pop(-1)
+            temp2.insert(7, RIGHT)
+            temp2.insert(7,0)
+            child_actions.append(['RIGHT', temp2])
+            
+            return child_actions
 
     def result(self, state, action):
         '''returns an action from self.actions(state)'''
@@ -413,7 +461,7 @@ print(len(kew))
 
 nodeP = Node([1, 3, 8,
               2, 4, 7,
-              6, 0, 5])
+              6, 5, 0])
 
 print(nodeP)
 
