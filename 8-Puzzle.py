@@ -173,12 +173,8 @@ class Problem:
             temp2.insert(5, 0)
             child_actions.append(['UP', temp2])
             
-            return child_actions
-        
-        # Tile layout for reference:
-##        [1, 3, 8,
-##         0, 2, 4,
-##         7, 6, 5]
+            return child_actions      
+
         if z == 3:
             DOWN = state[0]
             LEFT = state[4]
@@ -210,8 +206,49 @@ class Problem:
          
             return child_actions
 
+        # Tile layout for reference:
+##        [1, 3, 8,
+##         2, 0, 4,
+##         7, 6, 5]
         if z == 4:
-            pass
+            DOWN  = state[1]
+            RIGHT = state[3]
+            LEFT  = state[5]
+            UP    = state[7]
+
+            # state for DOWN move
+            temp1 = state[:]
+            temp1.pop(4)
+            temp1.pop(1)
+            temp1.insert(1, 0)
+            temp1.insert(4, DOWN)
+            child_actions.append(['DOWN', temp1])
+
+            # state for RIGHT move
+            temp2 = state[:]
+            temp2.pop(3)
+            temp2.pop(3)
+            temp2.insert(3, RIGHT)
+            temp2.insert(3, 0)
+            child_actions.append(['RIGHT', temp2])
+            
+            # state for LEFT move
+            temp3 = state[:]
+            temp3.pop(4)
+            temp3.pop(4)
+            temp3.insert(4, 0)
+            temp3.insert(4, LEFT)
+            child_actions.append(['LEFT', temp3])
+
+            # state for UP move
+            temp4 = state[:]
+            temp4.pop(4)
+            temp4.pop(-2)
+            temp4.insert(4, UP)
+            temp4.insert(-1, 0)
+            child_actions.append(['UP', temp4])
+
+            return child_actions
 
         if z == 5:
             pass
@@ -326,7 +363,7 @@ print(len(kew))
 # Problem Tests - just one given since all cases implemented the same
 
 nodeP = Node([1, 3, 8,
-              0, 2, 4,
+              2, 0, 4,
               7, 6, 5])
 
 print(nodeP)
