@@ -277,14 +277,34 @@ class Problem:
             
             return child_actions
 
-        # Tile layout for reference:
-##        [1, 3, 8,
-##         2, 4, 0,
-##         7, 6, 5]
+
         if z == 6:
+            DOWN = state[3]
+            LEFT = state[-2]
+
+            # move for DOWN state
+            temp1 = state[:]
+            temp1.pop(3)
+            temp1.pop(-3)
+            temp1.insert(-2, DOWN)
+            temp1.insert(3, 0)
+            child_actions.append(['DOWN', temp1])
+
+            # move for LEFT state
+            temp2 = state[:]
+            temp2.pop(6)
+            temp2.pop(6)
+            temp2.insert(6, 0)
+            temp2.insert(6, LEFT)
+            
+            child_actions.append(['LEFT', temp2])
 
             return child_actions
 
+        # Tile layout for reference:
+##        [1, 3, 8,
+##         2, 4, 7,
+##         6, 0, 5]
         if z == 7:
             pass
 
@@ -392,8 +412,8 @@ print(len(kew))
 # Problem Tests - just one given since all cases implemented the same
 
 nodeP = Node([1, 3, 8,
-              2, 4, 0,
-              7, 6, 5])
+              2, 4, 7,
+              6, 0, 5])
 
 print(nodeP)
 
