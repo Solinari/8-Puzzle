@@ -44,15 +44,21 @@ class Node:
         '''return the path from root to current node'''
         this_node = self
         the_path = []
-
+        
         while this_node:
             the_path.append(this_node)
             this_node = this_node.parent
-        return list(reversed(the_path))
+        return the_path
 
     def solution(self):
         ''' return the solution along a path'''
-        sol = [node.action for node in self.path()[1:]]
+            
+        #sol = [node.action for node in self.path()[1:]]
+
+        sol = []
+
+        for node in self.path():
+            sol.insert(0, node.action)
 
         return sol
 
@@ -527,16 +533,23 @@ def Use_BFS(Start, Finish):
 
     #begin the algorithm
     
-    count = 0
+    count = len(BreadthFirstSearch)
+    theMax = 0
     while Prob.goal_test(Start) != True:
-        count += 1
+
+        # Max Queue
+        theMax = len(BreadthFirstSearch)
+        if theMax > count:
+            count = theMax
+        
         check = BreadthFirstSearch.dequeue()
 
         # compare it like a string since python wont let you add lists as keys
         states[str(check.state)] = check.path_cost
         
         if Prob.goal_test(check.state):
-            print(count)
+            
+            print("Max Queue was {}\n".format(count))
             print(check)
             return check.solution()
 
@@ -572,18 +585,24 @@ def Use_DFS(Start, Finish):
 
     #begin the algorithm
     
-    count = 0
+    count = len(DepthFirstSearch)
+    theMax = 0
     while Prob.goal_test(Start) != True:
-        count += 1
+
+        # Max Queue
+        theMax = len(DepthFirstSearch)
+        if theMax > count:
+            count = theMax
+        
         check = DepthFirstSearch.dequeue()
 
         # compare it like a string since python wont let you add lists as keys
         states[str(check.state)] = check.path_cost
         
         if Prob.goal_test(check.state):
-            print(count)
+            print("Max Queue was {}\n".format(count))
             print(check)
-            return check.state
+            return check.solution()
 
         children = Prob.actions(check.state)
 
@@ -622,16 +641,22 @@ def Use_IDS(Start, Finish, MaxDepth):
 
     #begin the algorithm
     
-    count = 0
+    count = len(DepthFirstSearch)
+    theMax = 0
     while Prob.goal_test(Start) != True:
-        count += 1
+
+        # Max Queue
+        theMax = len(DepthFirstSearch)
+        if theMax > count:
+            count = theMax
+            
         check = DepthFirstSearch.dequeue()
 
         # compare it like a string since python wont let you add lists as keys
         states[str(check.state)] = check.path_cost
         
         if Prob.goal_test(check.state):
-            print(count)
+            print("Max Queue was {}\n".format(count))
             print(check)
             return check.state
 
@@ -724,21 +749,21 @@ def Do_BFS():
     print(Use_BFS(EASY, GOAL))
     end = time.time()
     elapsed = end - start
-    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
     
     print("Medium:")
     start = time.time()
     print(Use_BFS(MED, GOAL))
     end = time.time()
     elapsed = end - start
-    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
     
     print("Hard:")
     start = time.time()
     print(Use_BFS(HARD, GOAL))
     end = time.time()
     elapsed = end - start
-    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
     
 #DFS
 def Do_DFS():
@@ -749,21 +774,21 @@ def Do_DFS():
     print(Use_DFS(EASY, GOAL))
     end = time.time()
     elapsed = end - start
-    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
     
     print("Medium:")
     start = time.time()
     print(Use_DFS(MED, GOAL))
     end = time.time()
     elapsed = end - start
-    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
     
     print("Hard:")
     start = time.time()
     print(Use_DFS(HARD, GOAL))
     end = time.time()
     elapsed = end - start
-    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
 
 #IDS
 
@@ -775,21 +800,21 @@ def Do_IDS():
     print(Use_IDS(EASY, GOAL, 0))
     end = time.time()
     elapsed = end - start
-    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
     
     print("Medium:")
     start = time.time()
     print(Use_IDS(MED, GOAL, 0))
     end = time.time()
     elapsed = end - start
-    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
     
     print("Hard:")
     start = time.time()
     print(Use_IDS(HARD, GOAL, 0))
     end = time.time()
     elapsed = end - start
-    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
     
 # GBFS
 
@@ -818,7 +843,7 @@ def Go():
             continue
 
         if User == "D":
-            DO_DFS()
+            Do_DFS()
             continue
 
         if User == "I":
