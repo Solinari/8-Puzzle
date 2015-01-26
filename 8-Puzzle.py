@@ -585,6 +585,61 @@ def Use_DFS(Start, Finish):
     
         
     return 0
+
+
+
+#Using Iterative-Deepening Search
+
+def Use_IDS(Start, Finish, MaxDepth):
+    '''I am using a MaxDepth variable to call
+    recursive calls of this to implement my IDS'''
+    
+    # create initial state
+    Root = Node(Start)
+
+    # create BFS queue & enqueue the initial state
+    DepthFirstSearch = DFS()
+    DepthFirstSearch.enqueue(Root)
+
+    # Create the problem class
+    Prob = Problem(Start, Finish)
+
+    # create the state dictionary
+    states = {}
+
+    #begin the algorithm
+    
+    count = 0
+    while Prob.goal_test(Start) != True:
+        count += 1
+        check = DepthFirstSearch.dequeue()
+
+        # compare it like a string since python wont let you add lists as keys
+        states[str(check.state)] = check.path_cost
+        
+        if Prob.goal_test(check.state):
+            print(count)
+            print(check)
+            return check.state
+
+        # Here is where we put the IDF recursive call
+        if check.depth == MaxDepth:
+            Use_IDS(Start, Finish, MaxDepth + 1)
+        
+        children = Prob.actions(check.state)
+
+        for child in children:
+
+            if str(child[1]) not in states:
+                DepthFirstSearch.enqueue(check.child_node(check,
+                                                            Prob.action_result(child[0]),
+                                                            Prob.state_result(child[1])))
+
+    #works but crashes out if I try to print the solution()
+    
+        
+    return 0
+
 #BFS
 
 ##print("Easy:")
@@ -596,15 +651,21 @@ def Use_DFS(Start, Finish):
 
 #DFS
 
+##print("Easy:")
+##print(Use_DFS(EASY, GOAL))
+##print("Medium:")
+##print(Use_DFS(MED, GOAL))
+##print("Hard:")
+##print(Use_DFS(HARD, GOAL))
+
+
+#IDS
+
 print("Easy:")
-print(Use_DFS(EASY, GOAL))
+print(Use_IDS(EASY, GOAL, 0))
 print("Medium:")
-print(Use_DFS(MED, GOAL))
+print(Use_IDS(MED, GOAL, 0))
 print("Hard:")
-print(Use_DFS(HARD, GOAL))
-
-
-
-
+print(Use_IDS(HARD, GOAL, 0))
 
 
