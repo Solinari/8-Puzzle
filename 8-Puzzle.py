@@ -52,12 +52,10 @@ class Node:
 
     def solution(self):
         ''' return the solution along a path'''
-            
-        #sol = [node.action for node in self.path()[1:]]
 
         sol = []
 
-        for node in self.path():
+        for node in self.path()[1:]:
             sol.insert(0, node.action)
 
         return sol
@@ -550,8 +548,8 @@ def Use_BFS(Start, Finish):
         if Prob.goal_test(check.state):
             
             print("Max Queue was {}\n".format(count))
-            print(check)
-            return check.solution()
+            print("Depth was {}\n".format(check.depth))
+            return check.state
 
         children = Prob.actions(check.state)
 
@@ -601,8 +599,8 @@ def Use_DFS(Start, Finish):
         
         if Prob.goal_test(check.state):
             print("Max Queue was {}\n".format(count))
-            print(check)
-            return check.solution()
+            print("Depth was {}\n".format(check.depth))
+            return check.state
 
         children = Prob.actions(check.state)
 
@@ -657,7 +655,7 @@ def Use_IDS(Start, Finish, MaxDepth):
         
         if Prob.goal_test(check.state):
             print("Max Queue was {}\n".format(count))
-            print(check)
+            print("Depth was {}\n".format(check.depth))
             return check.state
 
         # Here is where we put the IDF recursive call
