@@ -23,37 +23,31 @@ class Node:
         self.path_cost = path_cost
         self.depth = depth
 
-        #set depth
-        if parent:
-            self.depth = parent.depth + 1
-
-        # add more...
-    def child_node(self, problem, action):
+    def child_node(self, parent, action, state):
         '''pass a problem object to store in the child '''
 
-        #this returns state
-        is_next = problem.result(self.state, action)
-
         #return cost - this is kind of like abstract method tucking
-        is_cost = problem.path_cost(self.path_cost, self.state, action, is_next)
+        is_cost = self.depth + 1
+        self.depth = is_cost
 
         # think about parent...
         # I think since you don't pass it, it's not none
         # and self is the pointer because it is a class object
         # and has implicit __iter__ and __next__
         # I still think you need to pass it..
-        return Node(self, is_next, action, is_cost, depth, parent = self)
+        # parent = self
+        return Node(state, parent, action, is_cost, self.depth)
 
     def path(self):
         '''return the path from root to current node'''
         this_node = self
         the_path = []
 
-        while node:
-            the_path.append(node)
-            node = node.parent
+        while this_node:
+            the_path.append(this_node)
+            this_node = this_node.parent
 
-        return list(reversed(path_back))
+        return list(reversed(the_path))
 
     def solution(self):
         ''' return the solution along a path'''
@@ -82,8 +76,7 @@ class Problem:
         self.initial = initial
         self.goal = goal
 
-    # IMPLEMENT ACTIONS AND RESULT!! AFTER THIS G2G on BFS STATE TESTING!
-    # this part I am making specifically for the 8-puzzle. ie it won't be abstract
+    # this part I am making specifically for the 8-puzzle. ie it won't be abstract like everything else
 
     def actions(self, state):
         '''return availible actions
@@ -94,7 +87,6 @@ class Problem:
         # do I just want to make 9 cases? (all 9 positions)
         # Notice I am only going to read state, never alter state
         # 99% of the work is done inside this method
-        
         z = state.index(0)
         child_actions = []
 
@@ -154,7 +146,6 @@ class Problem:
             child_actions.append(['UP', temp3])
             
             return child_actions
-
 
         if z == 2:
             UP = state[5]
@@ -277,7 +268,6 @@ class Problem:
             
             return child_actions
 
-
         if z == 6:
             DOWN = state[3]
             LEFT = state[-2]
@@ -333,10 +323,6 @@ class Problem:
 
             return child_actions
 
-        # Tile layout for reference:
-##        [1, 3, 8,
-##         2, 4, 7,
-##         6, 5, 0]
         if z == 8:
             DOWN = state[5]
             RIGHT = state[-2]
@@ -359,16 +345,20 @@ class Problem:
             
             return child_actions
 
-    def result(self, state, action):
+    def action_result(self, action):
         '''returns an action from self.actions(state)'''
-        pass
+        return action
+
+    def state_result(self, state):
+        '''returns a state from self.actions(state)'''
+        return state
 
     def goal_test(self, state):
         '''returns boolean of if state == goal'''
 
         return state == self.goal
 
-    def path_cost(self, cost, state_one, action, state_two):
+    def path_cost(self, cost):
         '''defines current path cost'''
         
         return cost + 1
@@ -424,16 +414,16 @@ class BFS:
 # base Class tests
 
 # BFS tests
-kew = BFS()
-
-kew.enqueue(100)
-print(kew)
-
-print(kew.dequeue())
-    
-print(kew)
-
-print(len(kew))
+##kew = BFS()
+##
+##kew.enqueue(100)
+##print(kew)
+##
+##print(kew.dequeue())
+##    
+##print(kew)
+##
+##print(len(kew))
 
 # Node Tests
 # setting the lists like this lets me
@@ -459,16 +449,85 @@ print(len(kew))
 
 # Problem Tests - just one given since all cases implemented the same
 
-nodeP = Node([1, 3, 8,
-              2, 4, 7,
-              6, 5, 0])
+##nodeP = Node([3, 8, 4,
+##              2, 0, 7,
+##              6, 5, 1])
+##
+##print(nodeP)
+##
+##test = Problem()
+##print(test.actions(nodeP.state))
+##sample = test.actions(nodeP.state)
+##
+##for i in sample:
+##    
+##    print(test.action_result(i[0]))
+##    print(test.state_result(i[1]))
 
-print(nodeP)
 
-test = Problem()
-print(test.actions(nodeP.state))
+#ASSIGNMENT LISTS
 
-# extend to superclass dfs
+GOAL = [1, 2, 3,
+        8, 0, 4,
+        7, 6, 5]
+
+EASY = [1, 3, 4,
+        8, 6, 2,
+        7, 0, 5]
+
+MED = [2, 8, 1,
+       0, 4, 3,
+       7, 6, 5]
+
+HARD = [5, 6, 7,
+        4, 0, 8,
+        3, 2, 1]
+
+
+# using Breadth-First Search
+
+def Use_BFS(Start, Finish):
+
+    # create initial state
+    Root = Node(Start)
+
+    # create BFS queue & enqueue the initial state
+    BreadthFirstSearch = BFS()
+    BreadthFirstSearch.enqueue(Root)
+
+    # Create the problem class
+    Prob = Problem(Start, Finish)
+
+    #begin the algorithm
+    count = 0
+    while Prob.goal_test(Start) != True:
+        count += 1
+        check = BreadthFirstSearch.dequeue()
+        
+        if Prob.goal_test(check.state):
+            print(count)
+            print(check)
+            return check.solution()
+
+        children = Prob.actions(check.state)
+
+        for child in children:
+
+            BreadthFirstSearch.enqueue(check.child_node(check,
+                                                        Prob.action_result(child[0]),
+                                                        Prob.state_result(child[1])))
+
+
+    
+        
+    return 1 
+
+print("Easy:")
+print(Use_BFS(EASY, GOAL))
+print("Medium:")
+print(Use_BFS(MED, GOAL))
+print("Hard:")
+print(Use_BFS(HARD, GOAL))
 
 
 
