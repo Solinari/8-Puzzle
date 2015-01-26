@@ -94,16 +94,13 @@ class Problem:
         # do I just want to make 9 cases? (all 9 positions)
         # Notice I am only going to read state, never alter state
         # 99% of the work is done inside this method
-
         
         z = state.index(0)
         child_actions = []
 
         if z == 0:
-            print("two")
-            #set moves
+            #set move
             UP = state[3]
-            LEFT = state[1]
 
             #pop the index at 0 because we know 0
             #the blank tile sits here at this point
@@ -125,7 +122,6 @@ class Problem:
             # state on LEFT move
             temp2 = state[:]
             temp2.pop(0)
-            temp2.insert(0, LEFT)
             temp2.insert(1, 0)
             child_actions.append(['LEFT', temp2])
 
@@ -133,38 +129,86 @@ class Problem:
             # each index is [MOVE, that_moves_state]
             return child_actions
 
-        # Tile layout for reference:
-##        [1, 0, 3,
-##         8, 2, 4,
-##         7, 6, 5]
-
         if z == 1:
-            print("one")
-            RIGHT = state[0]
-            LEFT  = state[2]
-            UP    = state[4]
+            #set move
+            UP = state[4]
 
             #state on RIGHT move
             temp1 = state[:]
             temp1.pop(1)
-            temp1.insert(2, 0)
-            child_actions.append(['RIGHT', temp1])
+            temp1.insert(0, 0)
+            child_actions.append(['RIGHT', temp1])        
 
             #state on LEFT move
             temp2 = state[:]
-
+            temp2.pop(1)
+            temp2.insert(2, 0)
+            child_actions.append(['LEFT', temp2])
 
             #state on UP move
             temp3 = state[:]
-
+            temp3.pop(1)
+            temp3.pop(3)
+            temp3.insert(3, 0)
+            temp3.insert(1, UP)
+            child_actions.append(['UP', temp3])
             
             return child_actions
 
-        if z == 2:
-            pass
 
+        if z == 2:
+            UP = state[5]
+
+            # state on RIGHT move
+            temp1 = state[:]
+            temp1.pop(2)
+            temp1.insert(1, 0)
+            child_actions.append(['RIGHT', temp1])
+
+            # state on UP move
+            temp2 = state[:]
+            temp2.pop(2)
+            temp2.pop(4)
+            temp2.insert(2, UP)
+            temp2.insert(5, 0)
+            child_actions.append(['UP', temp2])
+            
+            return child_actions
+        
+        # Tile layout for reference:
+##        [1, 3, 8,
+##         0, 2, 4,
+##         7, 6, 5]
         if z == 3:
-            pass
+            DOWN = state[0]
+            LEFT = state[4]
+            UP   = state[6]
+
+            # state for DOWN move
+            temp1 = state[:]
+            temp1.pop(3)
+            temp1.pop(0)
+            temp1.insert(0, 0)
+            temp1.insert(3, DOWN)
+            child_actions.append(['DOWN', temp1])
+
+            # state for LEFT move
+            temp2 = state[:]
+            temp2.pop(3)
+            temp2.pop(3)
+            temp2.insert(3, 0)
+            temp2.insert(3, LEFT)
+            child_actions.append(['LEFT', temp2])
+    
+            # state for UP move        
+            temp3 = state[:]
+            temp3.pop(3)
+            temp3.pop(5)
+            temp3.insert(3, UP)
+            temp3.insert(6, 0)
+            child_actions.append(['UP', temp3])
+         
+            return child_actions
 
         if z == 4:
             pass
@@ -279,10 +323,10 @@ print(len(kew))
 ##print(node2.__eq__(node3))
 ##print(node1.__eq__(node3))
 
-# Problem Tests
+# Problem Tests - just one given since all cases implemented the same
 
-nodeP = Node([1, 0, 3,
-              8, 2, 4,
+nodeP = Node([1, 3, 8,
+              0, 2, 4,
               7, 6, 5])
 
 print(nodeP)
