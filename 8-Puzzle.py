@@ -409,7 +409,7 @@ class BFS:
         return 'Queue is: {}'.format(self.q)
 
 class DFS(BFS):
-    '''inherits from BFS'''
+    '''Depth First Search - inherits from BFS'''
 
     def dequeue(self):
         '''pops 1st from the back'''
@@ -419,6 +419,17 @@ class DFS(BFS):
 
         else:
             return self.q.pop()
+
+class GBFS(BFS):
+    '''Greedy Best-First Search - Inherits from BFS'''
+
+    # I just need this to let me insert by value
+    def sort(self, item, value):
+        '''appends an item to queue'''
+        
+        return self.q.append(item)
+
+    
 
 #some tests
 
@@ -640,6 +651,67 @@ def Use_IDS(Start, Finish, MaxDepth):
         
     return 0
 
+# Greedy Best-First Search
+
+#helper function
+
+def Find_Misplaced_Tiles(BoardState, Goal):
+    '''returns the number of tiles misplaced
+    this is my h1(n) function'''
+
+    count = 0
+
+    for i in range(len(BoardState)):
+        if BoardState[i] != Goal[i]:
+                   count += 1
+    return count
+
+def Use_GBFS(Start, Finish):
+    ''' follows bestfirst searchbut sorts it as it goes'''
+
+    # create initial state
+    Root = Node(Start)
+
+    # create BFS queue & enqueue the initial state
+    GreedyBestFirstSearch = BFS()
+    GreedyBestFirstSearch.enqueue(Root)
+
+    # Create the problem class
+    Prob = Problem(Start, Finish)
+
+    # create the state dictionary
+    states = {}
+
+    #begin the algorithm
+    
+    count = 0
+    while Prob.goal_test(Start) != True:
+        count += 1
+        check = GreedyBestFirstSearch.dequeue()
+
+        # compare it like a string since python wont let you add lists as keys
+        states[str(check.state)] = check.path_cost
+        
+        if Prob.goal_test(check.state):
+            print(count)
+            print(check)
+            return check.solution()
+
+        children = Prob.actions(check.state)
+
+        for child in children:
+
+            if str(child[1]) not in states:
+                GreedyBestFirstSearch.enqueue(check.child_node(check,
+                                                               Prob.action_result(child[0]),
+                                                               Prob.state_result(child[1])))
+            # sorting part is here
+            for i in range(len(GreedyBestFirstSearch)):
+                
+    return 0
+
+
+
 #BFS
 
 ##print("Easy:")
@@ -661,11 +733,14 @@ def Use_IDS(Start, Finish, MaxDepth):
 
 #IDS
 
-print("Easy:")
-print(Use_IDS(EASY, GOAL, 0))
-print("Medium:")
-print(Use_IDS(MED, GOAL, 0))
-print("Hard:")
-print(Use_IDS(HARD, GOAL, 0))
+##print("Easy:")
+##print(Use_IDS(EASY, GOAL, 0))
+##print("Medium:")
+##print(Use_IDS(MED, GOAL, 0))
+##print("Hard:")
+##print(Use_IDS(HARD, GOAL, 0))
+
+# GBFS
+                   
 
 
