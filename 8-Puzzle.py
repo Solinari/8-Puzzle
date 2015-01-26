@@ -2,6 +2,8 @@
 # AI 380/480
 # Assignment 1
 
+import time
+
 # The book's website: http://aima-python.googlecode.com/svn/trunk/search.py
 # has a wonderful template for general abstracts of node & problem
 # I will be adapting and implementing these for the assignment's purpose
@@ -669,6 +671,8 @@ def Find_Misplaced_Tiles(BoardState, Goal):
 def Use_GBFS(Start, Finish):
     ''' follows bestfirst searchbut sorts it as it goes'''
 
+    # NOT FINISHED
+
     # create initial state
     Root = Node(Start)
 
@@ -707,40 +711,125 @@ def Use_GBFS(Start, Finish):
                                                                Prob.state_result(child[1])))
             # sorting part is here
             for i in range(len(GreedyBestFirstSearch)):
+                pass
                 
     return 0
 
-
-
 #BFS
-
-##print("Easy:")
-##print(Use_BFS(EASY, GOAL))
-##print("Medium:")
-##print(Use_BFS(MED, GOAL))
-##print("Hard:")
-##print(Use_BFS(HARD, GOAL))
-
+def Do_BFS():
+    '''for the UI call'''
+    
+    print("Easy:")
+    start = time.time()
+    print(Use_BFS(EASY, GOAL))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    
+    print("Medium:")
+    start = time.time()
+    print(Use_BFS(MED, GOAL))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    
+    print("Hard:")
+    start = time.time()
+    print(Use_BFS(HARD, GOAL))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    
 #DFS
-
-##print("Easy:")
-##print(Use_DFS(EASY, GOAL))
-##print("Medium:")
-##print(Use_DFS(MED, GOAL))
-##print("Hard:")
-##print(Use_DFS(HARD, GOAL))
-
+def Do_DFS():
+    '''for the UI call'''
+    
+    print("Easy:")
+    start = time.time()
+    print(Use_DFS(EASY, GOAL))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    
+    print("Medium:")
+    start = time.time()
+    print(Use_DFS(MED, GOAL))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    
+    print("Hard:")
+    start = time.time()
+    print(Use_DFS(HARD, GOAL))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(elapsed))
 
 #IDS
 
-##print("Easy:")
-##print(Use_IDS(EASY, GOAL, 0))
-##print("Medium:")
-##print(Use_IDS(MED, GOAL, 0))
-##print("Hard:")
-##print(Use_IDS(HARD, GOAL, 0))
-
+def Do_IDS():
+    '''for the UI call'''
+    
+    print("Easy:")
+    start = time.time()
+    print(Use_IDS(EASY, GOAL, 0))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    
+    print("Medium:")
+    start = time.time()
+    print(Use_IDS(MED, GOAL, 0))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    
+    print("Hard:")
+    start = time.time()
+    print(Use_IDS(HARD, GOAL, 0))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(elapsed))
+    
 # GBFS
+
+# not quite
                    
 
+# Timing function, UI, and output calls
+
+def Go():
+    '''follows UI calls'''
+
+    Stop = ""
+
+    while True:
+
+        User = str(input("Please key one of the following letters on the left and hit enter:\n\nB - BreadFirstSearch\n\nD - DepthFirstSearch\n\nI - Iterative Deepening Search\n\nKey Q to stop\n\n"))
+
+
+        User = User.upper()
+
+        if User == "Q":
+            break
+
+        if User == "B":
+            Do_BFS()
+            continue
+
+        if User == "D":
+            DO_DFS()
+            continue
+
+        if User == "I":
+            Do_IDS()
+            continue
+
+        if User != "B" or User != "D" or User != "I":
+            continue
+
+    print("Good Bye!")
+
+
+Go()
 
