@@ -46,7 +46,6 @@ class Node:
         while this_node:
             the_path.append(this_node)
             this_node = this_node.parent
-
         return list(reversed(the_path))
 
     def solution(self):
@@ -409,6 +408,18 @@ class BFS:
         # print() will call on this overloaded method
         return 'Queue is: {}'.format(self.q)
 
+class DFS(BFS):
+    '''inherits from BFS'''
+
+    def dequeue(self):
+        '''pops 1st from the back'''
+        
+        if self.isEmpty == True:
+            return 'Queue is empty'
+
+        else:
+            return self.q.pop()
+
 #some tests
 
 # base Class tests
@@ -498,11 +509,18 @@ def Use_BFS(Start, Finish):
     # Create the problem class
     Prob = Problem(Start, Finish)
 
+    # create the state dictionary
+    states = {}
+
     #begin the algorithm
+    
     count = 0
     while Prob.goal_test(Start) != True:
         count += 1
         check = BreadthFirstSearch.dequeue()
+
+        # compare it like a string since python wont let you add lists as keys
+        states[str(check.state)] = check.path_cost
         
         if Prob.goal_test(check.state):
             print(count)
@@ -513,21 +531,79 @@ def Use_BFS(Start, Finish):
 
         for child in children:
 
-            BreadthFirstSearch.enqueue(check.child_node(check,
-                                                        Prob.action_result(child[0]),
-                                                        Prob.state_result(child[1])))
+            if str(child[1]) not in states:
+                BreadthFirstSearch.enqueue(check.child_node(check,
+                                                            Prob.action_result(child[0]),
+                                                            Prob.state_result(child[1])))
 
-
+    #works for easy and medium AND hard
     
         
-    return 1 
+    return 0
+
+# Using Depth-First Search
+def Use_DFS(Start, Finish):
+
+    # create initial state
+    Root = Node(Start)
+
+    # create BFS queue & enqueue the initial state
+    DepthFirstSearch = DFS()
+    DepthFirstSearch.enqueue(Root)
+
+    # Create the problem class
+    Prob = Problem(Start, Finish)
+
+    # create the state dictionary
+    states = {}
+
+    #begin the algorithm
+    
+    count = 0
+    while Prob.goal_test(Start) != True:
+        count += 1
+        check = DepthFirstSearch.dequeue()
+
+        # compare it like a string since python wont let you add lists as keys
+        states[str(check.state)] = check.path_cost
+        
+        if Prob.goal_test(check.state):
+            print(count)
+            print(check)
+            return check.state
+
+        children = Prob.actions(check.state)
+
+        for child in children:
+
+            if str(child[1]) not in states:
+                DepthFirstSearch.enqueue(check.child_node(check,
+                                                            Prob.action_result(child[0]),
+                                                            Prob.state_result(child[1])))
+
+    #works but crashes out if I try to print the solution()
+    
+        
+    return 0
+#BFS
+
+##print("Easy:")
+##print(Use_BFS(EASY, GOAL))
+##print("Medium:")
+##print(Use_BFS(MED, GOAL))
+##print("Hard:")
+##print(Use_BFS(HARD, GOAL))
+
+#DFS
 
 print("Easy:")
-print(Use_BFS(EASY, GOAL))
+print(Use_DFS(EASY, GOAL))
 print("Medium:")
-print(Use_BFS(MED, GOAL))
+print(Use_DFS(MED, GOAL))
 print("Hard:")
-print(Use_BFS(HARD, GOAL))
+print(Use_DFS(HARD, GOAL))
+
+
 
 
 
