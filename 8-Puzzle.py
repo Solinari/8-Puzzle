@@ -429,10 +429,9 @@ class DFS(BFS):
 class GBFS(BFS):
     '''Greedy Best-First Search - Inherits from BFS'''
 
-    # enqueue like normal. never pop dequeue. sort and return off the front with dequeue
-
-    # making a return to just return off the front, not pop. remember to sort then dequeue
-    def return(self):
+    
+    # making a return to just return off the front, not pop. remember to sort then return
+    def front_return(self):
         '''just return, don't pop'''
         if self.isEmpty == True:
             return 'Queue is empty'
@@ -441,9 +440,9 @@ class GBFS(BFS):
             return self.q[0]
         
     def sort(self, value):
-        '''sorts queue by state according to value, which is GOAL for our problem'''
+        '''sorts queue by state according to node.path_cost, which is f(n) for GBFS'''
         
-        return sorted(self.q, key = lambda this_node : Find_Misplaced_Tiles(this_node.state, value))
+        return sorted(self.q, key = lambda this_node : this_node.path_cost)
 
     
 
@@ -704,13 +703,13 @@ def Find_Misplaced_Tiles(BoardState, Goal):
 def Use_GBFS(Start, Finish):
     ''' follows bestfirst searchbut sorts it as it goes'''
 
-    # NOT FINISHED
+    # Testing...
 
     # create initial state
     Root = Node(Start)
 
     # create BFS queue & enqueue the initial state
-    GreedyBestFirstSearch = BFS()
+    GreedyBestFirstSearch = GBFS()
     GreedyBestFirstSearch.enqueue(Root)
 
     # Create the problem class
@@ -731,28 +730,27 @@ def Use_GBFS(Start, Finish):
         if theMax > count:
             count = theMax
 
-        # think what to do instead of dequeue
-        check = GreedyBestFirstSearch.dequeue()
+        # try GBFS.sort(Goal) then dequeue. My node class keeps track of my backtracking. I don't need a huge queue
+        GreedyBestFirstSearch.sort(Finish)
+        check = GreedyBestFirstSearch.front_return()
 
         # compare it like a string since python wont let you add lists as keys
         states[str(check.state)] = check.path_cost
         
         if Prob.goal_test(check.state):
-            print(count)
-            print(check)
-            return check.solution()
+            print("Max Queue was {}\n".format(count))
+            print("Depth was {}\n".format(check.depth))
+            return check.state
 
         children = Prob.actions(check.state)
 
         for child in children:
 
+            # ADD IN COMPARE FOR h1(n)!!!!
             if str(child[1]) not in states:
                 GreedyBestFirstSearch.enqueue(check.child_node(check,
                                                                Prob.action_result(child[0]),
                                                                Prob.state_result(child[1])))
-            # sorting part is here
-            for i in range(len(GreedyBestFirstSearch)):
-                pass
                 
     return 0
 
@@ -834,6 +832,29 @@ def Do_IDS():
     
 # GBFS
 
+def Do_GBFS():
+    '''for the UI call'''
+    print("Easy:")
+    start = time.time()
+    print(Use_GBFS(EASY, GOAL))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
+    
+    print("Medium:")
+    start = time.time()
+    print(Use_GBFS(MED, GOAL))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
+    
+    print("Hard:")
+    start = time.time()
+    print(Use_GBFS(HARD, GOAL))
+    end = time.time()
+    elapsed = end - start
+    print("Took {} milliseconds to complete!\n\n".format(int(elapsed * 1000)))
+
 # not quite
                    
 
@@ -844,7 +865,7 @@ def Go():
 
     while True:
 
-        User = str(input("Please key one of the following letters on the left and hit enter:\n\nB - BreadFirstSearch\n\nD - DepthFirstSearch\n\nI - Iterative Deepening Search\n\nKey Q to stop\n\n"))
+        User = str(input("Please key one of the following letters on the left and hit enter:\n\nB - Breadth First Search\n\nD - Depth First Search\n\nI - Iterative Deepening Search\n\nG - Greedy Best-First Search\n\nKey Q to stop\n\n"))
 
 
         User = User.upper()
@@ -864,7 +885,11 @@ def Go():
             Do_IDS()
             continue
 
-        if User != "B" or User != "D" or User != "I":
+        if User == "G":
+            Do_GBFS()
+            continue
+
+        if User != "B" or User != "D" or User != "I" or User != "G":
             continue
 
     print("Good Bye!")
