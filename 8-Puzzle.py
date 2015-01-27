@@ -429,11 +429,21 @@ class DFS(BFS):
 class GBFS(BFS):
     '''Greedy Best-First Search - Inherits from BFS'''
 
-    # I just need this to let me insert by value
-    def sort(self, item, value):
-        '''appends an item to queue'''
+    # enqueue like normal. never pop dequeue. sort and return off the front with dequeue
+
+    # making a return to just return off the front, not pop. remember to sort then dequeue
+    def return(self):
+        '''just return, don't pop'''
+        if self.isEmpty == True:
+            return 'Queue is empty'
+
+        else:
+            return self.q[0]
         
-        return self.q.append(item)
+    def sort(self, value):
+        '''sorts queue by state according to value, which is GOAL for our problem'''
+        
+        return sorted(self.q, key = lambda this_node : Find_Misplaced_Tiles(this_node.state, value))
 
     
 
