@@ -711,9 +711,17 @@ def Use_GBFS(Start, Finish):
 
     #begin the algorithm
     
-    count = 0
+    count = len(GreedyBestFirstSearch)
+    theMax = 0
     while Prob.goal_test(Start) != True:
-        count += 1
+
+
+        # Max Queue
+        theMax = len(GreedyBestFirstSearch)
+        if theMax > count:
+            count = theMax
+
+        # think what to do instead of dequeue
         check = GreedyBestFirstSearch.dequeue()
 
         # compare it like a string since python wont let you add lists as keys
