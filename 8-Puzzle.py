@@ -824,8 +824,6 @@ def Do_IDS():
 def Go():
     '''follows UI calls'''
 
-    Stop = ""
-
     while True:
 
         User = str(input("Please key one of the following letters on the left and hit enter:\n\nB - BreadFirstSearch\n\nD - DepthFirstSearch\n\nI - Iterative Deepening Search\n\nKey Q to stop\n\n"))
