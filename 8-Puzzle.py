@@ -428,15 +428,6 @@ class DFS(BFS):
 
 class GBFS(BFS):
     '''Greedy Best-First Search - Inherits from BFS'''
-
-    def dequeue(self):
-        '''change it so just returns front'''
-
-        if self.isEmpty == True:
-            return 'Queue is empty'
-
-        else:
-            return self.q[0]
         
     def sort(self, goal):
         '''sorts queue by state according to node.path_cost, which is f(n) for GBFS'''
@@ -753,7 +744,9 @@ def Use_GBFS(Start, Finish):
 
             # now we use the h(n) in addiction to the duplicate state check for the enqueue
             # if we add this:  and child_heur <= paren_heur
-            if str(child[1]) not in states and child_heur <= paren_heur:
+            # I don't think I need this though since I sort by the heuristic so the good children
+            # bubble up to the top of the queue
+            if str(child[1]) not in states:
                 GreedyBestFirstSearch.enqueue(check.child_node(check,
                                                                Prob.action_result(child[0]),
                                                                Prob.state_result(child[1])))
