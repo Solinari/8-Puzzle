@@ -429,20 +429,19 @@ class DFS(BFS):
 class GBFS(BFS):
     '''Greedy Best-First Search - Inherits from BFS'''
 
-    
-    # making a return to just return off the front, not pop. remember to sort then return
-    def front_return(self):
-        '''just return, don't pop'''
+    def dequeue(self):
+        '''change it so just returns front'''
+
         if self.isEmpty == True:
             return 'Queue is empty'
 
         else:
             return self.q[0]
         
-    def sort(self, value):
+    def sort(self, goal):
         '''sorts queue by state according to node.path_cost, which is f(n) for GBFS'''
-        
-        return sorted(self.q, key = lambda this_node : this_node.path_cost)
+
+        return sorted(self.q, key = lambda this_node : Find_Misplaced_Tiles(this_node.state, goal))
 
     
 
@@ -732,7 +731,7 @@ def Use_GBFS(Start, Finish):
 
         # try GBFS.sort(Goal) then dequeue. My node class keeps track of my backtracking. I don't need a huge queue
         GreedyBestFirstSearch.sort(Finish)
-        check = GreedyBestFirstSearch.front_return()
+        check = GreedyBestFirstSearch.dequeue()
 
         # compare it like a string since python wont let you add lists as keys
         states[str(check.state)] = check.path_cost
@@ -744,10 +743,17 @@ def Use_GBFS(Start, Finish):
 
         children = Prob.actions(check.state)
 
+        #need two values to call the helper for the children to not append bad nodes with worst h(n)
+        
+        paren_heur = Find_Misplaced_Tiles(check.state, Finish)
+
         for child in children:
 
-            # ADD IN COMPARE FOR h1(n)!!!!
-            if str(child[1]) not in states:
+            child_heur = Find_Misplaced_Tiles(child[1], Finish)
+
+            # now we use the h(n) in addiction to the duplicate state check for the enqueue
+            # if we add this:  and child_heur <= paren_heur
+            if str(child[1]) not in states and child_heur <= paren_heur:
                 GreedyBestFirstSearch.enqueue(check.child_node(check,
                                                                Prob.action_result(child[0]),
                                                                Prob.state_result(child[1])))
